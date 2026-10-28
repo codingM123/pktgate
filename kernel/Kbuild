@@ -1,0 +1,4 @@
+# Kbuild file: tells the kernel build system how to build pktgate.ko.
+obj-m := pktgate.o
+pktgate-y := pktgate_main.o pktgate_rules.o pktgate_hook.o pktgate_dev.o pktgate_proc.o
+ccflags-y := -I$(src)/../include

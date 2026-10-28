@@ -1,0 +1,21 @@
+# kernel build output
+kernel/*.o
+kernel/*.ko
+kernel/*.mod
+kernel/*.mod.c
+kernel/*.cmd
+kernel/.*.cmd
+kernel/.tmp_versions/
+kernel/Module.symvers
+kernel/modules.order
+kernel/.modules.order.cmd
+kernel/.Module.symvers.cmd
+
+# user-space binaries
+tools/pktgatectl
+tests/netprobe
+
+# QEMU test harness output
+build-qemu/
+
+.DS_Store

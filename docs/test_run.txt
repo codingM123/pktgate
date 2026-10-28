@@ -1,0 +1,45 @@
+pktgate tests on 6.8.0-147-generic
+-----------------------------------------------
+[PASS] module loads
+[PASS] /dev/pktgate exists
+[PASS] /proc/net/pktgate shows the default policy
+[PASS] stats via ioctl: 0 rules
+[PASS] ping 127.0.0.1 works with no rules
+[PASS] add rule: drop outbound icmp to 127.0.0.1
+[PASS] ping is blocked by the rule
+[PASS] dropped counter increased
+[PASS] rule 0 shows a hit count
+[PASS] watch shows the dropped icmp packet: 20:12:54.588  out icmp 127.0.0.1 -> 127.0.0.1  84 bytes  drop   (rule 0) lo
+[PASS] del 0
+[PASS] ping works again after deleting the rule
+[PASS] tcp connect to port 9000 times out while the rule is active
+[PASS] list shows the tcp rule with dport 9000
+[PASS] tcp connect succeeds after deleting the rule
+[PASS] tcp server received the data
+[PASS] udp send to port 9001 fails with EPERM while the rule is active
+[PASS] udp listener received nothing
+[PASS] udp datagram delivered after deleting the rule
+[PASS] policy drop
+[PASS] policy drop blocks ping
+[PASS] an accept rule overrides the drop policy (first match wins)
+[PASS] flush
+[PASS] flush leaves 0 rules
+[PASS] log all
+[PASS] log all records accepted packets
+[PASS] log off records nothing
+[PASS] a rule with --log is recorded even in drops mode
+[PASS] del 99: no such rule
+[PASS] bad port is rejected
+[PASS] ports without tcp/udp are rejected
+[PASS] bad address is rejected
+[PASS] 65th rule is rejected: table full
+[PASS] 64 rules stored
+[PASS] reset zeroes the counters
+[PASS] two concurrent watch readers exit cleanly
+[PASS] device still answers after 100 rule changes under traffic
+[PASS] no kernel errors in dmesg
+[PASS] module unloads
+[PASS] /proc/net/pktgate is gone after unload
+[PASS] network still works after unload
+-----------------------------------------------
+41 passed, 0 failed

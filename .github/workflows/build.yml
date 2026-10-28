@@ -1,0 +1,30 @@
+name: build
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install a compiler and kernel headers
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential
+          sudo apt-get install -y "linux-headers-$(uname -r)" || sudo apt-get install -y linux-headers-generic
+
+      - name: Build the module and tools with extra warnings
+        run: |
+          KDIR="/lib/modules/$(uname -r)/build"
+          if [ ! -d "$KDIR" ]; then
+            KDIR="$(ls -d /usr/src/linux-headers-*-generic | sort -V | tail -n 1)"
+          fi
+          echo "Building against $KDIR"
+          make W=1 KDIR="$KDIR"
+
+      - name: Check the tool's command-line handling
+        run: |
+          tools/pktgatectl version
+          tools/pktgatectl --help
+          ! tools/pktgatectl add --sport 22 drop
